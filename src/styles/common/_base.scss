@@ -1,0 +1,91 @@
+*{
+  box-sizing: border-box;
+  font-family: "Source Code Pro", monospace;
+  font-size: small;
+  margin: 0;
+  padding: 0;
+}
+
+.body{
+  height: 100vh;
+  width: 100vw;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  background-color: rgb(17, 65, 209);
+  // color: #f1f1f1;
+}
+
+#root{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(17, 65, 209);
+  color: white;
+}
+
+.title-head{
+  width: 450px;
+  display: flex;
+  align-items: center;
+}
+
+img {
+  height: 80px;
+  margin: 10px;
+}
+
+h1 {
+  font-size: large;
+}
+
+button {
+  margin: 10px;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.collapsible {
+  width: 450px;
+  margin: 1px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: rgb(238, 113, 113);
+}
+
+.tl-reason{
+  width: 450px;
+  margin: 5px;
+  padding: 10px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  color: black;
+}
+
+.tl-line{
+  margin: 0px;
+  padding: 5px;
+}
+
+#refresh-timer {
+  display: flex;
+  color: white;
+  margin: 10px;
+}
