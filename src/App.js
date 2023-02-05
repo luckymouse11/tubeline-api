@@ -1,48 +1,39 @@
 import axios from 'axios'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import logo from './assets/tfl-logo.jpg'
 
 const App = () => {
 
   const [ tubes, setTubes ] = useState([])
+  const dataFetchedRef = useRef(false)
 
   useEffect(() => {
-    
     const getAPI = async() => {
       const { data } = await axios.get('https://api.tfl.gov.uk/line/mode/tube/status')
       setTubes(data)
     }
+    if (dataFetchedRef.current) return
+    dataFetchedRef.current = true
     getAPI()
   }, [])
 
 
-  // const coll = document.getElementsByClassName('collapsible')
-  // let i
+  const handleClick = (collapsibleId) => {
 
-  // for (i = 0; i < coll.length; i++) {
-  //   console.log(i)
-  //   coll[i].addEventListener('click', function() {
-  //     this.classList.toggle('active')
-  //     const content = this.nextElementSibling
-  //     console.log('show me content')
-  //     console.log(content)
-  //     console.log(content.style.display)
-  //     if (content.style.display === 'none') {
-  //       console.log('display 1' +  content.style.display)
-  //       content.style.display = 'block'
-  //     } else {
-  //       console.log('display 2' +  content.style.display)
-  //       content.style.display = 'none'
-  //     }
-  //   })
-  // }
+    const reason = document.getElementById(collapsibleId).nextElementSibling
+
+    if (reason.style.display === 'block') {
+      reason.style.display = 'none'
+    } else {
+      reason.style.display = 'block'
+    }
+  }
 
   function timedRefresh(timeoutPeriod) {
     setTimeout('location.reload(true);',timeoutPeriod)
   }
   
   window.onload = timedRefresh(60000)
-
 
   return (
     <>
@@ -54,16 +45,20 @@ const App = () => {
         {tubes.map((tube) => {
           return (
             <>
-              <button type="button" key={tube.id} style={{ border: `3px solid ${tube.id}` }} id={`${tube.id}`} className="collapsible">
+              <button onClick={()=>handleClick(tube.id)} type="button" key={tube.id} style={{ border: `3px solid ${tube.id}` }} id={tube.id} className="collapsible">
                 <div className="tl-line">
                   <div>{tube.name}</div>
                 </div>
-                <div className="tl-line">
+                <div key="{tube.name}_status"className="tl-line">
                   <div>{tube.lineStatuses[0].statusSeverityDescription}</div>
                 </div>
               </button>
-              <div style={{ border: `3px solid ${tube.id}` }}  id={`${tube.id}`} className="tl-reason">
-                <div>{tube.lineStatuses[0].reason}</div>
+              <div style={{ border: `3px solid ${tube.id}` }} id={tube.id} className="tl-reason">
+                {tube.lineStatuses[0].reason ?
+                  <div>{tube.lineStatuses[0].reason}</div>
+                  :
+                  <div>No update</div>
+                }
               </div>
             </>
           )
